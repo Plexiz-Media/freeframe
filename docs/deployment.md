@@ -118,6 +118,8 @@ Use the same two `-f` flags for every later `docker compose` command (`ps`, `log
 
 `docker compose` refuses to start if `DOMAIN` or `ACME_EMAIL` is empty when the HTTPS file is used.
 
+With the HTTPS file, every plain-HTTP request is redirected to HTTPS, so opening the server by its IP address or another hostname lands on HTTPS with a certificate warning. Use the domain.
+
 > **Requirements:** Your domain's DNS A record must point to your server, and ports 80 + 443 must be open. Traefik needs port 80 for the ACME HTTP challenge even when serving HTTPS.
 
 ### Without SSL (HTTP only)

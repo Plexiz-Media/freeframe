@@ -190,7 +190,7 @@ For the full guide including **SSL setup**, **bring-your-own infrastructure** (e
 | Queue        | Celery + Redis                                    |
 | Transcoding  | FFmpeg (multi-bitrate HLS)                        |
 | Storage      | Any S3-compatible (AWS, R2, B2, Garage, Silo)    |
-| Proxy        | Traefik (auto SSL via Let's Encrypt)              |
+| Proxy        | Traefik (opt-in Let's Encrypt SSL)                |
 | Auth         | JWT + magic code email login                      |
 
 ## Documentation

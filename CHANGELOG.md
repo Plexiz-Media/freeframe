@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **HTTPS is now a separate compose file, and nothing changes unless you add it.** If you set `DOMAIN` and `ACME_EMAIL` expecting Let's Encrypt certificates, they were never requested; add `-f docker-compose.https.yml` after `-f docker-compose.prod.yml` to get them (see "SSL / TLS Setup" in `docs/deployment.md`). It needs `DOMAIN` and `ACME_EMAIL` set, DNS pointing at the host, and ports 80 and 443 open, and it redirects plain HTTP to HTTPS. If you do not add the file, `docker-compose.prod.yml` behaves exactly as before, including behind Cloudflare in "Full" mode or another proxy.
 
 ### Fixed
-- **HTTPS certificates were never requested.** The production compose routes by path only, and Traefik takes the domain to request a certificate for from a host rule, so it logged `No domain parsed in provider ACME` and requested nothing, whatever `DOMAIN` and `ACME_EMAIL` were set to. The new opt-in `docker-compose.https.yml` adds host-based routers, so Traefik asks Let's Encrypt for `DOMAIN`, and redirects plain HTTP to HTTPS. The existing routers are unchanged.
+- **HTTPS certificates were never requested.** The production compose routes by path only, and Traefik takes the domain to request a certificate for from a host rule, so it logged `No domain parsed in provider ACME` and requested nothing, whatever `DOMAIN` and `ACME_EMAIL` were set to. The new opt-in `docker-compose.https.yml` adds host-based routers, so Traefik asks Let's Encrypt for `DOMAIN`, and redirects plain HTTP to HTTPS. The existing routers keep their rules; with the file, plain HTTP requests are redirected to HTTPS.
 
 ## [1.21.0] - 2026-10-24
 
