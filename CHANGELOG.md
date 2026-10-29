@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - **HTTPS certificates were never requested.** The production compose routes by path only, and Traefik takes the domain to request a certificate for from a host rule, so it logged `No domain parsed in provider ACME` and requested nothing, whatever `DOMAIN` and `ACME_EMAIL` were set to. The new opt-in `docker-compose.https.yml` adds host-based routers, so Traefik asks Let's Encrypt for `DOMAIN`, and redirects plain HTTP to HTTPS. The existing routers keep their rules.
+- **Copy buttons work when FreeFrame is served over plain HTTP.** The share links table, a comment's Copy Link, the share link detail page and the collection share dialog called `navigator.clipboard` directly, which does not exist outside a secure context (for example `http://192.168.1.20:3000`), so the table and comment buttons threw and the others did nothing. They now use the shared clipboard helper, which falls back to the browser's copy command, and the copied state shows only when the copy worked.
 
 ## [1.21.0] - 2026-10-24
 
