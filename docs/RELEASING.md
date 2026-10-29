@@ -34,6 +34,9 @@ Releases before v1.21.0 have no images.
      release goes there, even ones whose PR had no user-facing entry of its own
      (test infra, internal refactors, etc.). Nobody who had a PR merged this
      release should be invisible in the CHANGELOG.
+   - **Bump the `docker-compose.images.yml` default to `X.Y.Z`** (no `v`) in the
+     same release PR; CI fails otherwise. The release PR is no longer
+     CHANGELOG-only, so CI runs on it.
 2. Tag the release commit and push the tag:
    ```bash
    git tag vX.Y.Z <commit>      # usually main's HEAD
