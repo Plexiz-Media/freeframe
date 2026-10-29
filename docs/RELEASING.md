@@ -130,16 +130,14 @@ sudo-rs (Ubuntu 26.04), and install.sh stops it.
 - Optionally edit the bad GitHub Release to mark it clearly broken. The
   immutable `vX.Y.Z` tag stays as-is; only the `stable` pointer retreats.
 
-## One-time setup still to do
-
-- Each GHCR package (`freeframe-api`, `freeframe-web`) has to be made public
-  by hand once, after its first push (org Packages, the package, Package
-  settings, Change visibility). GitHub creates a package as private and has no
-  API to change that; until then an anonymous `docker pull` fails, and so do
-  the published-images compose files and the installer. Do it before the
-  first release that the docs point people at.
-
 ## One-time setup (already done)
+
+- The GHCR packages `freeframe-api` and `freeframe-web` are public, so an
+  anonymous `docker pull` works. GitHub creates a package as private and has
+  no API to change that; if a new package is ever added, make it public by
+  hand after its first push (org Packages, the package, Package settings,
+  Change visibility), or the published-images compose files and the installer
+  fail to pull it.
 
 - `stable` and `latest` branches were created at **v1.3.1**.
 - `latest`/`stable` must **not** have required-review branch protection, or the

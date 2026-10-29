@@ -37,7 +37,7 @@ The installer is for **Linux servers only**:
 
 This downloads a small script and runs it as the administrator (`sudo`). The script runs `freeframe install`, which checks the server first and changes nothing if a check fails. You can read the script before running it: it is [`install.sh`](../install.sh) in this repository.
 
-The command works from the first release after v1.21.0, the first that has the installer. `latest` is the newest published release. We will switch this command to `stable`, the release we have validated for production, once the first release containing the installer has been promoted there.
+The command works from v1.22.0, the first release that has the installer. `latest` is the newest published release. We will switch this command to `stable`, the release we have validated for production, once the first release containing the installer has been promoted there.
 
 If you need to set a variable (see [Unattended installs](#unattended-installs-cloud-init-ansible) below), put it after `sudo`, because `sudo` drops variables set before it:
 
@@ -357,7 +357,7 @@ These are the manual ways, fully supported next to the [installer](#install-on-a
 
 ### Run the published images
 
-This works from the first release after v1.21.0, the first that has these compose files. You need only the compose files and your settings; download them from the ref you want to follow (`latest`, or a pinned `vX.Y.Z` from the first release after v1.21.0 on). `latest` is the newest published release. We will switch these commands to `stable`, the release we have validated for production, once the first release containing these files has been promoted there.
+This works from v1.22.0, the first release that has these compose files. You need only the compose files and your settings; download them from the ref you want to follow (`latest`, or a pinned `vX.Y.Z` from v1.22.0 on). `latest` is the newest published release. We will switch these commands to `stable`, the release we have validated for production, once the first release containing these files has been promoted there.
 
 ```bash
 mkdir freeframe && cd freeframe
@@ -1061,7 +1061,7 @@ docker compose --env-file .env.prod -f docker-compose.prod.yml ps
 
 ### `failed to resolve reference ... not found`
 
-With `docker-compose.images.yml`, a version that has no published image prints `failed to resolve reference ghcr.io/techiebutler/freeframe-api:<version>: ... not found`, followed by an error about the build context (the build section of `docker-compose.prod.yml` needs the source tree, which you do not have). Read the pair as "that version is not published". Check `FREEFRAME_VERSION` in `.env.prod` (digits and dots only, no leading `v`) and that the compose files you downloaded belong to the first release after v1.21.0 or a later one. A new release's images can take a little while to appear after the release itself.
+With `docker-compose.images.yml`, a version that has no published image prints `failed to resolve reference ghcr.io/techiebutler/freeframe-api:<version>: ... not found`, followed by an error about the build context (the build section of `docker-compose.prod.yml` needs the source tree, which you do not have). Read the pair as "that version is not published". Check `FREEFRAME_VERSION` in `.env.prod` (digits and dots only, no leading `v`) and that the compose files you downloaded belong to v1.22.0 or a later release. A new release's images can take a little while to appear after the release itself.
 
 You must build yourself when you deploy under a sub-path (`NEXT_PUBLIC_BASE_PATH`), use Intel (VAAPI) transcoding, or run local changes. NVIDIA (NVENC) transcoding works with the published images and `docker-compose.gpu.yml`; see [Hardware-Accelerated Transcoding](#hardware-accelerated-transcoding-optional). Clone the repository and run `docker compose --env-file .env.prod -f docker-compose.prod.yml up -d --build` without `docker-compose.images.yml`. Adding `--build` to a command that does include the images file also builds from source, but it needs the source tree next to the compose file.
 
