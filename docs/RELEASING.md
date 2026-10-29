@@ -104,6 +104,19 @@ release (soak it as `latest`, smoke-test, watch for breakage reports).
   a rebuild) and checks they match. If that last step fails, re-run the
   workflow with the same tag; repeating it is harmless.
 
+**The installer's command uses `latest` for now.** The install command in the
+README and `docs/deployment.md` (`sudo bash -c "$(curl -fsSL .../latest/install.sh)"`) names
+the `latest` ref, and so do the published-images download commands there. When
+the first release containing the installer (and `docker-compose.images.yml`) is
+promoted to `stable`, switch those commands to `stable` in a docs PR. The stable
+install command must name the channel too:
+`sudo FREEFRAME_CHANNEL=stable bash -c "$(curl -fsSL .../stable/install.sh)"`.
+`install.sh` cannot see the URL it was downloaded from, and both it and the
+`freeframe` command default to `latest` when no channel is given, so a bare
+`bash -c` of the stable URL installs a server that follows `latest`. Keep the
+`bash -c` form: a piped `curl ... | sudo bash` cannot ask its questions under
+sudo-rs (Ubuntu 26.04), and install.sh stops it.
+
 ## Rolling back a bad release
 
 `stable` is just a pointer — move it back to the last good tag:

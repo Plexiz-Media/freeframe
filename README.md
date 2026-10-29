@@ -132,9 +132,45 @@ Release notes are on the [Releases page](https://github.com/Techiebutler/freefra
 
 ## Production Deployment
 
-There are two ways to run FreeFrame in production. Both use the same `.env.prod` and the same data; pick one.
+### Install on a fresh server
 
-### Run the published images
+The easiest way, and the one we recommend if you have not run a server before. Rent a server, run one command, and answer a few short questions: your web address (with an email for certificate notices when it uses HTTPS), where to keep footage (on the server or in an S3 bucket), your mail server (SMTP), your admin account and, on a server with an NVIDIA GPU, whether to use it. The installer sets up Docker, starts FreeFrame, gets a free HTTPS certificate, creates your admin account and turns on nightly backups. It also tells you whether video is processed on the GPU or the CPU: an NVIDIA GPU whose driver works can be used with one confirmation (the installer sets up NVIDIA's container toolkit), see [Video processing on a GPU](docs/deployment.md#video-processing-on-a-gpu).
+
+What to rent:
+
+- **Ubuntu 22.04, 24.04 or 26.04, or Debian 12 or 13**, on amd64 or arm64.
+- **2 CPU cores, 4 GB of memory and 20 GB of disk at the least**, more for a bigger team or for footage kept on the server (see the [hardware table](docs/deployment.md#hardware-requirements)).
+- **Ports 80 and 443 reachable** from the internet (open them in your provider's firewall).
+
+Log in to the server and run:
+
+```bash
+sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/Techiebutler/freeframe/latest/install.sh)"
+```
+
+The installer is for **Linux servers only**:
+
+- **Supported:** Ubuntu 22.04, 24.04 or 26.04, or Debian 12 or 13, on amd64 or arm64.
+- **Not macOS or Windows.** On a Mac, use the [manual compose setup](#or-set-it-up-by-hand) with Docker Desktop. On Windows, Ubuntu in WSL2 with systemd switched on works for trying FreeFrame, but it is not something a team should rely on: its address changes when Windows restarts, and it stops when the PC sleeps.
+- **Other Linux distributions:** use the [manual compose setup](#or-set-it-up-by-hand).
+
+The command works from the first release after v1.21.0, the first that has the installer. `latest` is the newest published release; the command will move to `stable` once the first release with the installer has been promoted there. To set a variable, put it after `sudo`: `sudo FREEFRAME_DOMAIN=review.yourstudio.com bash -c "$(curl -fsSL https://raw.githubusercontent.com/Techiebutler/freeframe/latest/install.sh)"`. Use this `bash -c` form rather than `curl ... | sudo bash`: on Ubuntu 26.04, whose `sudo` is sudo-rs, a piped script cannot read your answers (the installer notices and shows this command instead). A piped command is fine only for an [unattended install](docs/deployment.md#unattended-installs-cloud-init-ansible) with `--yes`.
+
+When it finishes, open the address it prints and sign in with your admin account, then invite your team from the admin area. Without email set up, sign-in codes and invitations are not sent and there is no password reset; invitation links can still be copied from the admin page.
+
+Afterwards the `freeframe` command looks after the server: `sudo freeframe status`, `update` (backs up first), `rollback`, `configure`, `backup`, `restore`, `logs`, `restart` and `uninstall`. Nightly backups run at 03:00 and the last 7 are kept, on the same server, so copy them elsewhere now and then. Uploaded media in bundled storage is not in them.
+
+The installer refuses a server that already runs FreeFrame set up by hand, and leaves it alone. For the DNS step, an office server behind a router, moving to a new server, unattended installs (cloud-init, Ansible) and troubleshooting, see the **[installation guide](docs/deployment.md#install-on-a-fresh-server)**.
+
+#### Removing FreeFrame
+
+`sudo freeframe uninstall` takes FreeFrame off the server. It first saves a final backup of the database and moves it, with every earlier backup and a copy of the settings file, to `/root/freeframe-removed-<date>-<time>/`. Then it removes FreeFrame's containers, the nightly backup, `/opt/freeframe` and the `freeframe` command. Your data stays in its Docker volumes (the database, and footage kept on the server) unless you add `--delete-data`, and Docker itself is left alone. Run `sudo freeframe uninstall --dry-run` first to see exactly what it would remove and keep. To put FreeFrame back later, or to run it unattended, see [Removing FreeFrame](docs/deployment.md#removing-freeframe) in the guide.
+
+### Or set it up by hand
+
+There are two manual ways to run FreeFrame in production, both fully supported. They use the same `.env.prod` settings file as the installer; pick one.
+
+#### Run the published images
 
 No clone and no build: the server needs only the compose files and your settings. This works from the first release after v1.21.0, the first that has these compose files.
 
@@ -154,7 +190,7 @@ docker compose --env-file .env.prod -f docker-compose.prod.yml -f docker-compose
 
 `docker-compose.images.yml` names the release it belongs to, so downloading the files again from the same ref and running `docker compose pull` then `up -d` is how you update. To pin a version, set `FREEFRAME_VERSION` in `.env.prod`.
 
-### Build from source
+#### Build from source
 
 Fully supported, and unchanged: this builds every image on the server.
 
