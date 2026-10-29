@@ -16,6 +16,7 @@ import { useReview, type CreateCommentPayload } from '@/components/review/review
 import { useReviewStore } from '@/stores/review-store'
 import { MobileCommentSheet, PEEK_PX, type SheetState } from '@/components/review/mobile-comment-sheet'
 import { useMediaQuery } from '@/hooks/use-media-query'
+import { useLandscape } from '@/hooks/use-landscape'
 import { useMediaTransport } from '@/hooks/use-media-transport'
 import { formatTimecode } from '@/lib/utils'
 import type { SharePermission } from '@/types'
@@ -116,7 +117,8 @@ function ShareReviewInner({
   // Same rule as the project review screen: a bottom sheet on a portrait phone
   // so the media stays in view, the side-by-side column on a landscape one.
   const isWide = useMediaQuery('(min-width: 768px)')
-  const isLandscape = useMediaQuery('(orientation: landscape)')
+  // Not useMediaQuery: the on-screen keyboard must not read as a rotation.
+  const isLandscape = useLandscape()
   const useSheet = !isWide && !isLandscape
   const [sheetState, setSheetState] = React.useState<SheetState>('peek')
   const [sheetHeight, setSheetHeight] = React.useState(PEEK_PX)

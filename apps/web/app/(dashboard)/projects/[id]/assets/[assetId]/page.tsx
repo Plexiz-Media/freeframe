@@ -8,6 +8,7 @@ import { VideoPlayer } from '@/components/review/video-player'
 import { AudioPlayer } from '@/components/review/audio-player'
 import { MobileCommentSheet, PEEK_PX, type SheetState } from '@/components/review/mobile-comment-sheet'
 import { useMediaQuery } from '@/hooks/use-media-query'
+import { useLandscape } from '@/hooks/use-landscape'
 import { useMediaTransport } from '@/hooks/use-media-transport'
 import { ImageViewer } from '@/components/review/image-viewer'
 import { AnnotationCanvas } from '@/components/review/annotation-canvas'
@@ -80,7 +81,8 @@ function ReviewScreenInner({ projectId }: { projectId: string }) {
   // column instead (#338): there the room is horizontal, and a sheet would eat
   // the little height there is.
   const isWide = useMediaQuery('(min-width: 768px)')
-  const isLandscape = useMediaQuery('(orientation: landscape)')
+  // Not useMediaQuery: the on-screen keyboard must not read as a rotation.
+  const isLandscape = useLandscape()
   const useSheet = !isWide && !isLandscape
   const [sheetState, setSheetState] = useState<SheetState>('peek')
   const [sheetHeight, setSheetHeight] = useState(PEEK_PX)
