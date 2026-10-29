@@ -16,21 +16,21 @@
 # checks it against CHANGELOG.md). Set FREEFRAME_VERSION in .env.prod to pin
 # another version, for example when rolling back.
 #
-# This file exists from the first release after v1.21.0 on. The web image
+# This file exists from v1.22.0 on. The web image
 # is built for the domain root: for a sub-path deployment
 # (NEXT_PUBLIC_BASE_PATH) build from source instead.
 # ============================================================
 
 services:
   api:
-    image: ghcr.io/techiebutler/freeframe-api:${FREEFRAME_VERSION:-1.21.0}
+    image: ghcr.io/techiebutler/freeframe-api:${FREEFRAME_VERSION:-1.22.0}
   worker:
-    image: ghcr.io/techiebutler/freeframe-api:${FREEFRAME_VERSION:-1.21.0}
+    image: ghcr.io/techiebutler/freeframe-api:${FREEFRAME_VERSION:-1.22.0}
   email_worker:
-    image: ghcr.io/techiebutler/freeframe-api:${FREEFRAME_VERSION:-1.21.0}
+    image: ghcr.io/techiebutler/freeframe-api:${FREEFRAME_VERSION:-1.22.0}
   maintenance_worker:
-    image: ghcr.io/techiebutler/freeframe-api:${FREEFRAME_VERSION:-1.21.0}
+    image: ghcr.io/techiebutler/freeframe-api:${FREEFRAME_VERSION:-1.22.0}
   beat:
-    image: ghcr.io/techiebutler/freeframe-api:${FREEFRAME_VERSION:-1.21.0}
+    image: ghcr.io/techiebutler/freeframe-api:${FREEFRAME_VERSION:-1.22.0}
   web:
-    image: ghcr.io/techiebutler/freeframe-web:${FREEFRAME_VERSION:-1.21.0}
+    image: ghcr.io/techiebutler/freeframe-web:${FREEFRAME_VERSION:-1.22.0}

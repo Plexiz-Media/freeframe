@@ -154,7 +154,7 @@ The installer is for **Linux servers only**:
 - **Not macOS or Windows.** On a Mac, use the [manual compose setup](#or-set-it-up-by-hand) with Docker Desktop. On Windows, Ubuntu in WSL2 with systemd switched on works for trying FreeFrame, but it is not something a team should rely on: its address changes when Windows restarts, and it stops when the PC sleeps.
 - **Other Linux distributions:** use the [manual compose setup](#or-set-it-up-by-hand).
 
-The command works from the first release after v1.21.0, the first that has the installer. `latest` is the newest published release; the command will move to `stable` once the first release with the installer has been promoted there. To set a variable, put it after `sudo`: `sudo FREEFRAME_DOMAIN=review.yourstudio.com bash -c "$(curl -fsSL https://raw.githubusercontent.com/Techiebutler/freeframe/latest/install.sh)"`. Use this `bash -c` form rather than `curl ... | sudo bash`: on Ubuntu 26.04, whose `sudo` is sudo-rs, a piped script cannot read your answers (the installer notices and shows this command instead). A piped command is fine only for an [unattended install](docs/deployment.md#unattended-installs-cloud-init-ansible) with `--yes`.
+The command works from v1.22.0, the first release that has the installer. `latest` is the newest published release; the command will move to `stable` once the first release with the installer has been promoted there. To set a variable, put it after `sudo`: `sudo FREEFRAME_DOMAIN=review.yourstudio.com bash -c "$(curl -fsSL https://raw.githubusercontent.com/Techiebutler/freeframe/latest/install.sh)"`. Use this `bash -c` form rather than `curl ... | sudo bash`: on Ubuntu 26.04, whose `sudo` is sudo-rs, a piped script cannot read your answers (the installer notices and shows this command instead). A piped command is fine only for an [unattended install](docs/deployment.md#unattended-installs-cloud-init-ansible) with `--yes`.
 
 When it finishes, open the address it prints and sign in with your admin account, then invite your team from the admin area. Without email set up, sign-in codes and invitations are not sent and there is no password reset; invitation links can still be copied from the admin page.
 
@@ -172,7 +172,7 @@ There are two manual ways to run FreeFrame in production, both fully supported. 
 
 #### Run the published images
 
-No clone and no build: the server needs only the compose files and your settings. This works from the first release after v1.21.0, the first that has these compose files.
+No clone and no build: the server needs only the compose files and your settings. This works from v1.22.0, the first release that has these compose files.
 
 ```bash
 mkdir freeframe && cd freeframe
